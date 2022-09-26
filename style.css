@@ -1,0 +1,9 @@
+.card-subtitle {
+  text-transform: capitalize;
+}
+.celcius {
+  font-size: 3rem;
+}
+.sup {
+  font-size: 2rem;
+}
