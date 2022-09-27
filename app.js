@@ -1,10 +1,14 @@
+const cityName = document.querySelector(".city-input");
+const searchCity = document.querySelector(".search");
+
 const fetchCountryWeather = async (city) => {
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=8fc495c975dc5f64690d2cfebc1b548e`;
 
   const res = await fetch(url);
 
   if (!res.ok) {
-    throw new Error();
+    // throw new Error();
+    alert("City could not found");
   }
   const data = await res.json();
 
@@ -28,15 +32,17 @@ const renderCountryWeather = (data) => {
   if (id >= 500 && id <= 800) {
     weatherStatu = "rainy";
     colorIcon = "secondary";
+    document.querySelector("body").className = "rainy-weather";
   } else if (id > 800) {
     weatherStatu = "sunny";
     colorIcon = "warning";
+    document.querySelector("body").className = "sunny-weather";
   }
 
   const rowDiv = document.querySelector(".row");
 
   rowDiv.innerHTML += `
-        <div class="col-md-4">
+        <div class="col-md-4 mb-4">
           <div class="card">
             <div class="card-body">
               <h5 class="card-title d-inline-block position-relative">${name} <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">${country}</span></h5>
@@ -56,5 +62,13 @@ const renderCountryWeather = (data) => {
   `;
 };
 
-fetchCountryWeather("warsaw");
-fetchCountryWeather("sivas");
+searchCity.addEventListener("click", () => {
+  fetchCountryWeather(cityName.value);
+  cityName.value = "";
+});
+
+cityName.addEventListener("keydown", (e) => {
+  if (e.keyCode === 13) {
+    searchCity.click();
+  }
+});
