@@ -41,11 +41,28 @@ const renderCountryWeather = (data) => {
 
   const rowDiv = document.querySelector(".row");
 
+  const cities = rowDiv.querySelectorAll(".card h5 span");
+  const citiesArray = Array.from(cities);
+  if (citiesArray.length > 0) {
+    const filteredArray = citiesArray.filter((span) => span.innerText == name);
+    console.log("asdas");
+    if (filteredArray.length > 0) {
+      cityName.placeholder = `You already know the weather for ${name}, Please search for another city 😉`;
+      setTimeout(() => {
+        cityName.placeholder = "Search for a city";
+      }, 5000);
+      cityName.value = "";
+      return;
+    }
+  }
+
   rowDiv.innerHTML += `
         <div class="col-md-4 mb-4">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title d-inline-block position-relative">${name} <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">${country}</span></h5>
+              <h5 class="card-title d-inline-block position-relative">                
+              <span>${name}</span>
+                <sup class="bg-success ps-2 pe-2 text-white rounded-3">${country}</sup></h5>
               <p class="celcius">${Math.round(
                 temp - 273.15
               )}<sup class="sup">°C</sup></p>
